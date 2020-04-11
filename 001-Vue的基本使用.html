@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue的基本使用</title>
+</head>
+
+<body>
+  <div id="app">
+    <h2>{{msg}}</h2>
+    <h1>{{1>0?msg:''}}</h1>
+    <h2>{{ 1+2 }}</h2>
+    <h2>{{ istrue }}</h2>
+    <h2>{{ msg.split('').reverse().join('') }}</h2>
+    <!-- 插入对象时，需要在前面进行空格 -->
+    <h2>{{ {msg: istrue} }}</h2>
+    <h2>{{ '这是一个字符串' }}</h2>
+  </div>
+  <!-- 第一步：引包 -->
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <!-- 第二步：创建实例化对象 -->
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        msg: '黄瓜',
+        istrue: 1 == 2,
+      }
+    })
+  </script>
+</body>
+
+</html>

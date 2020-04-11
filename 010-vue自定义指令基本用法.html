@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>title</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    
+    h1 {
+      width: 300px;
+      height: 300px;
+      background-color: blueviolet;
+      position: relative;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- <h1 v-absolute2>这是一个内容</h1> -->
+    <h1 v-absolute2='isShow'>这是一个内容</h1>
+    <h1 v-absolute4:foo.a.b="'heihei'">这是一个内容</h1>
+    <h1 v-absolute3="{name: '张三',age: 19,}">这是一个内容</h1>
+  </div>
+
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script>
+    // 全局注册自定义指令
+    // Vue.directive('absolute1', {
+    //   // 选项
+    //   bind: function(el) {
+    //     el.style.top = 30 + 'px';
+    //     el.style.left = 30 + 'px';
+    //     console.log('这是bind输出');
+
+    //   },
+    //   update: function(el) {
+    //     el.style.top = 30 + 'px';
+    //     el.style.left = 30 + 'px';
+    //     console.log('这是bind输出');
+
+    //   }
+    // })
+    Vue.directive('absolute2', {
+      // 选项
+      bind: function(el) {
+        el.style.top = 30 + 'px';
+        el.style.left = 30 + 'px';
+        console.log('我就只醒一次');
+
+      },
+      update: function(el) {
+        el.style.top = 30 + 'px';
+        el.style.left = 30 + 'px';
+        console.log('heiheihei');
+
+      }
+    })
+    Vue.directive('absolute3', {
+      // 选项
+      bind: function(el, binding) {
+        el.style.top = 30 + 'px';
+        el.style.left = 30 + 'px';
+        el.innerHTML += binding.value.name + binding.value.age;
+      }
+    })
+    Vue.directive('absolute4', {
+      // 选项
+      bind: function(el, binding, vnode) {
+        el.style.top = 30 + 'px';
+        el.style.left = 30 + 'px';
+        el.innerHTML += binding.value + '<br />';
+        el.innerHTML +=
+          'name: ' + binding.name + '<br>' +
+          'value: ' + binding.value + '<br>' +
+          'expression: ' + binding.expression + '<br>' +
+          'argument: ' + binding.arg + '<br>' +
+          'modifiers: ' + binding.modifiers + '<br>' +
+          'vnode keys: ' + vnode;
+        console.log(binding.modifiers);
+        console.log(vnode);
+
+
+
+      }
+    })
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        message: '222',
+        isShow: true
+      },
+      // directives: {
+      //   focus: {
+      //     // 指令选项
+      //   }
+      // }
+    });
+  </script>
+</body>
+
+</html>

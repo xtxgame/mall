@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>过滤器的使用</title>
+</head>
+
+<body>
+  <div id="app">
+  </div>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script>
+    // 创建全局组件
+    Vue.component('Parent', {
+      data() {
+        return {
+          msg1: {
+            name: '嘿嘿'
+          }
+        }
+      },
+      template: `<div>
+      <p>{{msg1.name}}</p>
+        <button >按钮</button>
+        <input type = 'text' v-model = 'msg1.name'>
+      </div>`,
+      methods: {
+        childHeader(val) {
+          this.msg1 = val
+          console.log(val);
+
+        },
+
+      },
+      watch: {
+        msg1: {
+          deep: true,
+          handler: function(newVal, oldVal) {
+            console.log('newValue', newVal.name);
+            console.log('oldValue', oldVal.name);
+          }
+        }
+      },
+    })
+    var vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          msg: '这是一个信息框',
+        }
+      },
+      template: `
+      <div>
+      <Parent />
+      </div>
+      `
+    })
+  </script>
+</body>
+
+</html>

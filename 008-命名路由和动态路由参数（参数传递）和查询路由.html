@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>title</title>
+</head>
+
+<body>
+  <div id="app">
+  </div>
+  <!-- 第一步，引入Vue模块 -->
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <!-- 第二步，引入vue-router模块 -->
+  <script src="./node_modules/vue-router/dist/vue-router.js"></script>
+  <script>
+    // 配置组件
+    var Login = {
+      template: `<div>
+      这是一个登录组件
+      </div>`,
+      created() {
+        console.log(this);
+
+        // this.$route是返回路由对应的规则
+        console.log(this.$route.params.id);
+        // this.$router是返回对应的路由
+        console.log(this.$router);
+
+      },
+    }
+    var Register = {
+      template: `<div>
+      这是一个注册组件
+      </div>`,
+    }
+
+    // 第三步，让Vue使用该vue-router创建
+    // Vue.use(VueRouter);
+    // 第四步，创建routera对象
+    const routera = new VueRouter({
+      // 第五步，配置路由对象
+      routes: [{
+        // 第六步，配置路由匹配的规则
+        // 注意，这里的#锚点可以进行忽略
+        // 这是一个动态路由参数
+        path: '/login/:id',
+        name: 'login',
+        component: Login,
+      }, {
+        // 路由查询
+        path: '/register',
+        name: 'register',
+        component: Register
+      }],
+
+    })
+
+    var App = {
+      // 当引入vue-router模块后，就会给我们抛出两个全局组件，分别是router-view，router-link（相当于===>a标签，有一个to属性，===>href属性）
+      // to属性需要加冒号，这是因为不加：表示静态数据，加了冒号才表示是动态的！！
+      template: `
+        <div>
+        <router-link :to='{name: "login",params :{id: 222}}' >登录</router-link>
+        <router-link :to='{name: "register",query:{username:10}}'>注册</router-link>
+         <router-view />
+          
+        </div>
+      `,
+
+    }
+    const vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          message: ''
+        }
+      },
+      components: {
+        App,
+      },
+      template: `<App />`,
+      // 第七步，将router路由挂载到Vue实例上管理，或者挂载到APP根组件上。
+      // 注意，当定义的router实例不是router时，不能使用ES6的增强写法。
+      router: routera
+    });
+  </script>
+</body>
+
+</html>

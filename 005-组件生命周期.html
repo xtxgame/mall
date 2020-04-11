@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>组建的生命周期</title>
+</head>
+
+<body>
+  <div id="app">
+    <Parent />
+  </div>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script>
+    // 创建全局组件
+    Vue.component('Parent', {
+      data() {
+        return {
+          msg1: '这是一个消息'
+        }
+      },
+      template: `<div>
+      <p>{{msg1}}</p>
+        <button >按钮</button>
+      </div>`,
+      methods: {
+        childHeader(val) {
+          this.msg1 = val
+          console.log(val);
+
+        },
+
+      },
+      beforeCreate() {
+        // 你会发现能打印出this对象，这时候已经创建了组件，所以能打印this，但是当在浏览器打开对象时能发现msg1 = "这是改变了只"，这是因为当点击展开时，浏览器会重新去读一遍内存真实的值然后显示，一但展开后就不会再变。所以浏览器调试console显示未必真实
+        // 具体可以看：https://segmentfault.com/q/1010000020230181
+        console.log(this);
+        // 虽然已经创建了组建实例，但是数据属性还没有获取到，所以显示为undefined
+        console.log(this.msg1);
+
+      },
+      created() {
+        console.log(this.msg1);
+
+        this.msg1 = '这是改变了只'
+      },
+    })
+    var vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          msg: '这是一个信息框',
+        }
+      },
+    })
+  </script>
+</body>
+
+</html>

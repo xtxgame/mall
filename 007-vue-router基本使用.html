@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>title</title>
+</head>
+
+<body>
+  <div id="app">
+  </div>
+  <!-- 第一步，引入Vue模块 -->
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <!-- 第二步，引入vue-router模块 -->
+  <script src="./node_modules/vue-router/dist/vue-router.js"></script>
+  <script>
+    // 配置组件
+    var Login = {
+      template: `<div>
+      这是一个登录组件
+      </div>`
+    }
+    var Register = {
+        template: `<div>
+      这是一个注册组件
+      </div>`
+      }
+      // 第三步，让Vue使用该vue-router创建
+      // Vue.use(VueRouter);
+      // 第四步，创建router对象
+    const router = new VueRouter({
+      // 第五步，配置路由对象
+      routes: [{
+        // 第六步，配置路由匹配的规则
+        // 注意，这里的#锚点可以进行忽略
+        path: '/login',
+        component: Login,
+      }, {
+        path: '/register',
+        component: Register
+      }],
+
+    })
+
+    var App = {
+      // 当引入vue-router模块后，就会给我们抛出两个全局组件，分别是router-view，router-link（相当于===>a标签，有一个to属性，===>href属性）
+      template: `
+        <div>
+        <router-link to='/login'>登录</router-link>
+        <router-link to='/register'>注册</router-link>
+          <a href = '#/login'>登录</a>
+          <a href = '#/register'>注册</a>
+         <router-view />
+          
+        </div>
+      `,
+
+    }
+    const vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          message: ''
+        }
+      },
+      components: {
+        App,
+      },
+      template: `<App />`,
+      // 第七步，将router路由挂载到Vue实例上管理，或者挂载到APP根组件上。
+      router
+    });
+  </script>
+</body>
+
+</html>

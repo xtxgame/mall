@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>title</title>
+</head>
+
+<body>
+  <div id="app">
+  </div>
+  <!-- 第一步，引入Vue模块 -->
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <!-- 第二步，引入vue-router模块 -->
+  <script src="./node_modules/vue-router/dist/vue-router.js"></script>
+  <script>
+    // 配置组件
+    var Home = {
+      template: `<div>
+        这是首页
+        <br />
+      <!--<router-link :to='{path: "/home/song"}'>音乐</router-link>-->
+      <!--<router-link :to='{path: "/home/movies"}'>电影</router-link>-->
+      
+      <router-link to='/home/song'>音乐</router-link>
+      <router-link to='/home/movies'>电影</router-link>
+      <router-view />
+      </div>`,
+
+    }
+    var Song = {
+      template: `<div>
+        音乐
+      </div>`,
+
+    }
+    var Movies = {
+      template: `<div>
+        电影
+      </div>`,
+
+    }
+
+    // 第三步，让Vue使用该vue-router创建
+    // Vue.use(VueRouter);
+    // 第四步，创建routera对象
+    const routera = new VueRouter({
+      // 第五步，配置路由对象
+      routes: [{
+        // 第六步，配置路由匹配的规则
+        // 注意，这里的#锚点可以进行忽略
+        // 这是一个动态路由参数
+        path: '/home',
+        name: 'home',
+        component: Home,
+        children: [{
+          path: 'song',
+          component: Song
+
+        }, {
+          path: 'movies',
+          component: Movies
+        }]
+      }],
+
+    })
+
+    var App = {
+      // 当引入vue-router模块后，就会给我们抛出两个全局组件，分别是router-view，router-link（相当于===>a标签，有一个to属性，===>href属性）
+      template: `
+        <div>
+        <router-link :to='{name: "home"}' >登录</router-link>
+         <router-view />
+          
+        </div>
+      `,
+
+    }
+    const vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          message: ''
+        }
+      },
+      components: {
+        App,
+      },
+      template: `<App />`,
+      // 第七步，将router路由挂载到Vue实例上管理，或者挂载到APP根组件上。
+      // 注意，当定义的router实例不是router时，不能使用ES6的增强写法。
+      router: routera
+    });
+  </script>
+</body>
+
+</html>

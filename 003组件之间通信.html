@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue组件创建的两种方式</title>
+</head>
+
+<body>
+  <div id="app">
+
+  </div>
+  <!-- 注意，下面的错误在vue.js会进行报错，当引用的是min.js是不会报错的！1 -->
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script>
+    // 创建全局组件
+    Vue.component('Parent', {
+      data() {
+        return {
+          msg1: '这是一个消息'
+        }
+      },
+      template: `<div>
+      <p>{{msg1}}</p>
+        <button >按钮</button>
+        <Child :childData='msg1' @childHeader='childHeader'/>
+      </div>`,
+      methods: {
+        childHeader(val) {
+          this.msg1 = val
+          console.log(val);
+
+        }
+      }
+    })
+    Vue.component('Child', {
+      template: `<div>
+        <button >按钮</button>
+        <p>{{childData}}</p>
+        <!-- 下面第一个方法会报错，因为这样修改了props中的值！！-->
+        <input type='text' v-model='childData' @input='parentData'>
+        <!-- 对比这两个方法，你会发现两者之间的区别！！很重要-->
+        <input type='text' v-model='msg2' @input='parentData'>
+      </div>`,
+      // 父组件向子组件通信
+      props: ['childData'],
+      data() {
+        return {
+          msg2: this.childData,
+        }
+      },
+      methods: {
+        parentData() {
+          this.$emit('childHeader', this.msg2),
+            console.log(this.msg2);
+
+        }
+      },
+    })
+
+
+
+    var vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          msg: '这是一个信息框',
+        }
+      },
+      template: `<Parent />`,
+    })
+  </script>
+</body>
+
+</html>
